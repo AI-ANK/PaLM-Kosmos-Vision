@@ -12,8 +12,8 @@ import os
 import datetime
 
 # Set up the title of the application
-st.title("Image Captioning and Chat")
-
+st.title("PaLM-Kosmos-Vision")
+st.write("My version of ChatGPT vision. You can upload an image and start chatting with the LLM about the image")
 # Initialize the cookie manager
 cookie_manager = stx.CookieManager()
 
