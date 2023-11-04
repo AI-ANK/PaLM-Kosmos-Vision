@@ -1,0 +1,11 @@
+streamlit
+google-generativeai
+llama-hub
+llama-index
+transformers
+Pillow
+requests
+nest_asyncio
+kaggle
+torch
+extra-streamlit-components
