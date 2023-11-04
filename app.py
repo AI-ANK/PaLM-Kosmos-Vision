@@ -135,22 +135,29 @@ else:
             st.markdown(user_input)
 
         # Call the chat engine to get the response if an image has been uploaded
-        if image_file:
-            # Get the response from your chat engine
-            with st.spinner('Waiting for the chat engine to respond...'):
-                # Get the response from your chat engine
-                response = chat_engine.chat(user_input)
-
-            # Append assistant message to the session state
-            st.session_state.messages.append({"role": "assistant", "content": response})
-
-            # Display the assistant message
-            with st.chat_message("assistant"):
-                st.markdown(response)
+        if image_file and user_input:
+            try:
+                with st.spinner('Waiting for the chat engine to respond...'):
+                    # Get the response from your chat engine
+                    response = chat_engine.chat(user_input)
         
-        # Increment the message count and update the cookie
-        message_count += 1
-        cookie_manager.set('message_count', str(message_count), expires_at=datetime.datetime.now() + datetime.timedelta(days=30))
+                # Append assistant message to the session state
+                st.session_state.messages.append({"role": "assistant", "content": response})
+        
+                # Display the assistant message
+                with st.chat_message("assistant"):
+                    st.markdown(response)
+        
+            except Exception as e:
+                st.error(f'An error occurred: {e}')
+                # Optionally, you can choose to break the flow here if a critical error happens
+                # return
+        
+            # Increment the message count and update the cookie
+            message_count += 1
+            cookie_manager.set('message_count', str(message_count), expires_at=datetime.datetime.now() + datetime.timedelta(days=30))
+
+
 
 
 # Set Replicate and Google API keys
