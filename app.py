@@ -99,7 +99,7 @@ if user_input:
         message_count = int(message_count)
 
     # Check if the message limit has been reached
-    if message_count >= 5:
+    if message_count >= 20:
         st.error("Notice: The maximum message limit for this demo version has been reached.")
     else:
         # Append user message to the session state
