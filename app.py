@@ -23,6 +23,7 @@ st.sidebar.markdown("""
 
 st.sidebar.markdown('## Other Projects')
 st.sidebar.markdown("""
+- [AI Equity Research Analyst](https://ai-eqty-rsrch-anlyst.streamlit.app/)
 - [Recasting "The Office" Scene](https://blackmirroroffice.streamlit.app/)
 - [Story Generator](https://appstorycombined-agaf9j4ceit.streamlit.app/)
 """)
