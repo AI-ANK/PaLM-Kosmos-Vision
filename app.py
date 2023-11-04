@@ -17,47 +17,19 @@ st.title("Image Captioning and Chat")
 # Initialize the cookie manager
 cookie_manager = stx.CookieManager()
 
-@st.cache_resource
-def get_vision_model():
-    model = AutoModelForVision2Seq.from_pretrained("ydshieh/kosmos-2-patch14-224", trust_remote_code=True)
-    processor = AutoProcessor.from_pretrained("ydshieh/kosmos-2-patch14-224", trust_remote_code=True)
-    return model, processor
-
 # Function to get image caption via Kosmos2.
 @st.cache_data
 def get_image_caption(image_data):
-
-    model, processor = get_vision_model()
-    #model = AutoModelForVision2Seq.from_pretrained("ydshieh/kosmos-2-patch14-224", trust_remote_code=True)
-    #processor = AutoProcessor.from_pretrained("ydshieh/kosmos-2-patch14-224", trust_remote_code=True)
-
-    prompt = "<grounding>An image of"
-    inputs = processor(text=prompt, images=image_data, return_tensors="pt")
-
-    generated_ids = model.generate(
-        pixel_values=inputs["pixel_values"],
-        input_ids=inputs["input_ids"][:, :-1],
-        attention_mask=inputs["attention_mask"][:, :-1],
-        img_features=None,
-        img_attn_mask=inputs["img_attn_mask"][:, :-1],
-        use_cache=True,
-        max_new_tokens=64,
+    input_data = {
+        "image": image_data,
+        "description_type": "Brief"
+    }
+    output = replicate.run(
+        "lucataco/kosmos-2:3e7b211c29c092f4bcc8853922cc986baa52efe255876b80cac2c2fbb4aff805",
+        input=input_data
     )
-    generated_text = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
-
-    text_description, entities = processor.post_process_generation(generated_text)
-    
-#Using replicate API
-#    input_data = {
-#        "image": image_data,
-#        "description_type": "Brief"
-#    }
-#    output = replicate.run(
-#        "lucataco/kosmos-2:3e7b211c29c092f4bcc8853922cc986baa52efe255876b80cac2c2fbb4aff805",
-#        input=input_data
-#    )
-#    # Split the output string on the newline character and take the first item
-#    text_description = output.split('\n\n')[0]
+    # Split the output string on the newline character and take the first item
+    text_description = output.split('\n\n')[0]
     return text_description
 
 # Function to create the chat engine.
