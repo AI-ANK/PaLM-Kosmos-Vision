@@ -12,8 +12,8 @@ import os
 import datetime
 
 # Set up the title of the application
-st.title("PaLM-Kosmos-Vision")
-#st.set_page_config(layout="wide")
+#st.title("PaLM-Kosmos-Vision")
+st.set_page_config(layout="wide")
 st.write("My version of ChatGPT vision. You can upload an image and start chatting with the LLM about the image")
 
 # Sidebar
@@ -84,47 +84,49 @@ def clear_chat():
 def on_image_upload():
     clear_chat()        
 
-# Add a clear chat button
-if st.button("Clear Chat"):
-    clear_chat()        
+# Retrieve the message count from cookies
+message_count = cookie_manager.get(cookie='message_count')
+if message_count is None:
+    message_count = 0
+else:
+    message_count = int(message_count)
 
-# Image upload section.
-image_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"], key="uploaded_image", on_change=on_image_upload)
-if image_file:
-    # Display the uploaded image at a standard width.
-    st.image(image_file, caption='Uploaded Image.', width=200)
-    # Process the uploaded image to get a caption.
-    image_data = BytesIO(image_file.getvalue())
-    img_desc = get_image_caption(image_data)
-    #st.write(f"Image description: {img_desc}")
-    st.write("Image Uploaded Successfully. Ask me anything about it.")
+# If the message limit has been reached, disable the inputs
+if message_count >= 20:
+    st.error("Notice: The maximum message limit for this demo version has been reached.")
+    # Disabling the uploader and input by not displaying them
+    image_uploader_placeholder = st.empty()  # Placeholder for the uploader
+    chat_input_placeholder = st.empty()      # Placeholder for the chat input
+else:
+    # Add a clear chat button
+    if st.button("Clear Chat"):
+        clear_chat()
 
-    # Initialize the chat engine with the image description.
-    chat_engine = create_chat_engine(img_desc, os.environ["GOOGLE_API_KEY"])
+    # Image upload section.
+    image_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"], key="uploaded_image", on_change=on_image_upload)
+    if image_file:
+        # Display the uploaded image at a standard width.
+        st.image(image_file, caption='Uploaded Image.', width=200)
+        # Process the uploaded image to get a caption.
+        image_data = BytesIO(image_file.getvalue())
+        img_desc = get_image_caption(image_data)
+        st.write("Image Uploaded Successfully. Ask me anything about it.")
 
-# Initialize session state for messages if it doesn't exist
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+        # Initialize the chat engine with the image description.
+        chat_engine = create_chat_engine(img_desc, os.environ["GOOGLE_API_KEY"])
 
-# Display previous messages
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    # Initialize session state for messages if it doesn't exist
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
-# Handle new user input
-user_input = st.chat_input("Ask me about the image:", key="chat_input")
-if user_input:
-    # Retrieve the message count from cookies
-    message_count = cookie_manager.get(cookie='message_count')
-    if message_count is None:
-        message_count = 0
-    else:
-        message_count = int(message_count)
+    # Display previous messages
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-    # Check if the message limit has been reached
-    if message_count >= 20:
-        st.error("Notice: The maximum message limit for this demo version has been reached.")
-    else:
+    # Handle new user input
+    user_input = st.chat_input("Ask me about the image:", key="chat_input")
+    if user_input:
         # Append user message to the session state
         st.session_state.messages.append({"role": "user", "content": user_input})
 
@@ -147,7 +149,6 @@ if user_input:
         # Increment the message count and update the cookie
         message_count += 1
         cookie_manager.set('message_count', str(message_count), expires_at=datetime.datetime.now() + datetime.timedelta(days=30))
-
 
 
 # Set Replicate and Google API keys
