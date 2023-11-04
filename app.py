@@ -137,7 +137,9 @@ else:
         # Call the chat engine to get the response if an image has been uploaded
         if image_file:
             # Get the response from your chat engine
-            response = chat_engine.chat(user_input)
+            with st.spinner('Waiting for the chat engine to respond...'):
+                # Get the response from your chat engine
+                response = chat_engine.chat(user_input)
 
             # Append assistant message to the session state
             st.session_state.messages.append({"role": "assistant", "content": response})
