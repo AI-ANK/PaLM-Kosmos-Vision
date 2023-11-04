@@ -95,7 +95,8 @@ if image_file:
     # Process the uploaded image to get a caption.
     image_data = BytesIO(image_file.getvalue())
     img_desc = get_image_caption(image_data)
-    st.write(f"Image description: {img_desc}")
+    #st.write(f"Image description: {img_desc}")
+    st.write("Image Uploaded Successfully. Ask me anything about it.")
 
     # Initialize the chat engine with the image description.
     chat_engine = create_chat_engine(img_desc, os.environ["GOOGLE_API_KEY"])
