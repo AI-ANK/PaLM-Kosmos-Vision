@@ -9,7 +9,7 @@ from llama_index.memory import ChatMemoryBuffer
 import os
 import datetime
 
-# Set up the title of the application.
+# Set up the title of the application
 st.title("Image Captioning and Chat")
 
 # Initialize the cookie manager
