@@ -13,7 +13,7 @@ import datetime
 
 # Set up the title of the application
 st.title("PaLM-Kosmos-Vision")
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 st.write("My version of ChatGPT vision. You can upload an image and start chatting with the LLM about the image")
 
 # Sidebar
