@@ -9,3 +9,4 @@ nest_asyncio
 kaggle
 torch
 extra-streamlit-components
+replicate
