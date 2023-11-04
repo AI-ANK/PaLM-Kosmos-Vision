@@ -1,5 +1,6 @@
 # PaLM-Kosmos-Vision
 
+PaLM-Kosmos-Vision is a proof-of-concept web application that serves as a basic version of ChatGPT Vision multi-modal chat. It's designed to demonstrate that integrating MultiModal models with traditional LLMs is possible, laying the groundwork for more sophisticated applications.
 PaLM-Kosmos-Vision is an innovative web application that combines the capabilities of Large Language Models (LLMs) to describe images and engage users in detailed conversations about those images. This project showcases the integration of PaLM API for nuanced language understanding and the KOSMOS-2 model for generating image captions.
 
 ## Features
