@@ -6,7 +6,6 @@ transformers
 Pillow
 requests
 nest_asyncio
-kaggle
 torch
 extra-streamlit-components
 replicate
