@@ -8,7 +8,7 @@ PaLM-Kosmos-Vision is an innovative web application that combines the capabiliti
 - Automatic image captioning using the KOSMOS-2 model.
 - Detailed chat interactions about images powered by PaLM API.
 - Session-based chat history with a clear chat option.
-- Demo version includes a message count limit feature.
+- Demo is limited to 20 messages per user to optimize resource usage.
 
 ## Tech Stack
 
