@@ -149,7 +149,7 @@ else:
                     st.markdown(response)
         
             except Exception as e:
-                st.error(f'An error occurred: {e}')
+                st.error(f'An error occurred.')
                 # Optionally, you can choose to break the flow here if a critical error happens
                 # return
         
