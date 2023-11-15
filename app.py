@@ -56,7 +56,7 @@ def get_image_caption(image_data):
 @st.cache_resource
 def create_chat_engine(img_desc, api_key):
     llm = PaLM(api_key=api_key)
-    service_context = ServiceContext.from_defaults(llm=llm)
+    service_context = ServiceContext.from_defaults(llm=llm, embed_model="local")
     doc = Document(text=img_desc)
     index = VectorStoreIndex.from_documents([doc], service_context=service_context)
     chatmemory = ChatMemoryBuffer.from_defaults(token_limit=1500)
